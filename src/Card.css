@@ -34,6 +34,11 @@
 	margin-bottom: 8px;
 }
 
+.Hovercard-Media {
+	width: 100%;
+	height: auto;
+}
+
 .Hovercard-Excerpt, .Hovercard-Excerpt * {
 	font-size: 0.8rem;
 }
