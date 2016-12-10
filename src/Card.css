@@ -8,6 +8,8 @@
 	margin-top: 10px; /* ::before[height] + offset */
 	font-size: 1rem;
 	pointer-events: none;
+	display: flex;
+	flex-direction: column;
 }
 
 .Hovercard-Card::before {
@@ -23,6 +25,13 @@
 
 .Hovercard-Card h1 {
 	font-size: 1rem;
+}
+
+.Hovercard-Media-Container {
+	margin-top: -16px;
+	margin-right: -16px;
+	margin-left: -16px;
+	margin-bottom: 8px;
 }
 
 .Hovercard-Excerpt, .Hovercard-Excerpt * {

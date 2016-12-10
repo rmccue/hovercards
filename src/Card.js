@@ -35,12 +35,28 @@ export default class Card extends React.Component {
 			</div>;
 		}
 
+		let featuredImage = null;
+		if ( "_embedded" in post && "wp:featuredmedia" in post._embedded ) {
+			featuredImage = post._embedded["wp:featuredmedia"][0];
+		}
+
 		return <div className="Hovercard-Card" style={ style }>
-			<h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
-			<div
-				className="Hovercard-Excerpt"
-				dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-			/>
+			{ featuredImage && featuredImage.media_type === "image" ?
+				<div className="Hovercard-Media-Container">
+					<img
+						alt={ featuredImage.alt_text }
+						className="Hovercard-Media"
+						src={ featuredImage.media_details.sizes.medium.source_url }
+					/>
+				</div>
+			: null }
+			<div>
+				<h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+				<div
+					className="Hovercard-Excerpt"
+					dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+				/>
+			</div>
 		</div>;
 	}
 }
