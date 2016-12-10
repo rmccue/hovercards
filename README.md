@@ -4,6 +4,16 @@ Show previews of your posts on hover.
 
 ![](preview.gif)
 
+## Features
+
+* **Themeable** - Inherits most of its styles from the theme to match.
+* **Works with any permalinks** - Got a crazy permalink structure? Don't worry, it works automatically with any setup!
+* **Slick** - I mean, have you seen the GIF above? It's super cool!
+
+## Un-Features
+
+* **Massive file size** - Uses React, which means there's 50KB of JS.
+
 ## Installation
 
 1. Clone this repository
