@@ -51,7 +51,7 @@ document.addEventListener( 'mouseover', e => {
 
 	const href = e.target.href;
 	// Match against the regex.
-	let res = href.match( HovercardsData.home + regex + '/?$' );
+	let res = href.match( HovercardsData.home + regex + '/?(#.+)?$' );
 	if ( ! res ) {
 		return;
 	}
