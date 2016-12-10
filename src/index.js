@@ -9,18 +9,18 @@ renderer.render();
 
 if ( module.hot ) {
 	module.hot.accept( './App', () => {
-		const NextApp = require('./App').default;
+		const NextApp = require( './App' ).default;
 		renderer.component = NextApp;
 	});
 }
 
 const isValidTarget = target => target.nodeType === Node.ELEMENT_NODE && target.nodeName === 'A';
 
-const regexForStructure = (structure, replacements) => {
+const regexForStructure = ( structure, replacements ) => {
 	let [ tags, matchers ] = replacements;
 
 	return tags.reduce(
-		(regex, _, index) => regex.replace( tags[index], matchers[index] ),
+		( regex, _, index ) => regex.replace( tags[ index ], matchers[ index ] ),
 		structure
 	);
 };
@@ -33,7 +33,7 @@ const dataForUrl = url => {
 		return dataCache[ url ];
 	}
 
-	let promise = new Promise((resolve, reject) => {
+	let promise = new Promise( ( resolve, reject ) => {
 		const redirectableURL = new URL( url );
 		redirectableURL.searchParams.set( 'hovercard_preview', '1' );
 		fetch( redirectableURL ).then( resp => resp.json() ).then( data => resolve( data ) ).catch( e => reject( e ) );
@@ -78,7 +78,6 @@ document.addEventListener( 'mouseout', e => {
 		return;
 	}
 
-	listeningTo.splice(idx, 1);
+	listeningTo.splice( idx, 1 );
 	renderer.setData({ target: null, post: null });
 });
-
