@@ -18,16 +18,6 @@ function ensureSlash(path, needsSlash) {
 	}
 }
 
-// We use "homepage" field to infer "public path" at which the app is served.
-// Webpack needs to know it to put the right <script> hrefs into HTML even in
-// single-page apps that may serve index.html for nested URLs like /todos/42.
-// We can't use a relative path in HTML because we don't want to load something
-// like /todos/42/static/js/bundle.7289d.js. We have to know the root.
-var homepagePath = require(paths.appPackageJson).homepage;
-var homepagePathname = homepagePath ? url.parse(homepagePath).pathname : '/';
-// Webpack uses `publicPath` to determine where the app is being served from.
-// It requires a trailing slash, or the file assets will get an incorrect path.
-var publicPath = ensureSlash(homepagePathname, true);
 // Get environment variables to inject into our app.
 var env = getClientEnvironment();
 
@@ -62,8 +52,6 @@ module.exports = {
 		// subresource integrity, it's important to make sure the attribute
 		// set on async-loaded chunks is set to anonymous.
 		crossOriginLoading: 'anonymous',
-		// We inferred the "public path" (such as / or /my-project) from homepage.
-		publicPath: publicPath
 	},
 	resolve: {
 		// This allows you to set a fallback for where Webpack should look for modules.
