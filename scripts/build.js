@@ -131,9 +131,9 @@ function build(previousSizeMap) {
 		}
 
 		if (process.env.CI && stats.compilation.warnings.length) {
-		 printErrors('Failed to compile.', stats.compilation.warnings);
-		 process.exit(1);
-	 }
+			printErrors('Failed to compile.', stats.compilation.warnings);
+			process.exit(1);
+		}
 
 		console.log(chalk.green('Compiled successfully.'));
 		console.log();
