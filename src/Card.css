@@ -37,3 +37,8 @@
 .Hovercard-Excerpt, .Hovercard-Excerpt * {
 	font-size: 0.8rem;
 }
+
+.Hovercard-Byline {
+	font-size: 0.6rem;
+	font-style: italic;
+}

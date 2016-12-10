@@ -1,8 +1,10 @@
+/* global HovercardsData */
 import React from 'react';
 
 import './Card.css';
 
 const WIDTH = 300;
+const strings = HovercardsData.strings;
 
 function getPosition( target ) {
 	let rect = target.getBoundingClientRect();
@@ -19,6 +21,11 @@ function getPosition( target ) {
 	position.left += target.offsetWidth / 2 - WIDTH / 2;
 
 	return position;
+}
+
+function formatDate( dateString ) {
+	let date = new Date( dateString );
+	return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
 export default class Card extends React.Component {
@@ -40,6 +47,8 @@ export default class Card extends React.Component {
 			featuredImage = post._embedded["wp:featuredmedia"][0];
 		}
 
+		let author = post._embedded.author[0].name;
+
 		return <div className="Hovercard-Card" style={ style }>
 			{ featuredImage && featuredImage.media_type === "image" ?
 				<div className="Hovercard-Media-Container">
@@ -56,6 +65,19 @@ export default class Card extends React.Component {
 					className="Hovercard-Excerpt"
 					dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
 				/>
+				{ post.date === post.modified ?
+					<p className="Hovercard-Byline">
+						{ strings.published
+							.replace( '%1$s', formatDate( post.date ) )
+							.replace( '%2$s', author ) }
+					</p>
+				:
+					<p className="Hovercard-Byline">
+						{ strings.updated
+							.replace( '%1$s', formatDate( post.modified ) )
+							.replace( '%2$s', author ) }
+					</p>
+				}
 			</div>
 		</div>;
 	}

@@ -58,6 +58,10 @@ function get_script_data() {
 			$wp_rewrite->rewritecode,
 			$wp_rewrite->rewritereplace,
 		],
+		'strings' => [
+			'published' => __( 'Published %1$s by %2$s', 'hovercards' ),
+			'updated' => __( 'Updated %1$s by %2$s', 'hovercards' ),
+		],
 	];
 }
 
