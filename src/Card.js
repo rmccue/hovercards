@@ -20,6 +20,10 @@ function getPosition( target ) {
 	// Point to the centre.
 	position.left += target.offsetWidth / 2 - WIDTH / 2;
 
+	// Keep on the screen.
+	position.top = Math.max( position.top, 0 );
+	position.left = Math.max( position.left, 0 );
+
 	return position;
 }
 
