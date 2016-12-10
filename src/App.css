@@ -1,0 +1,35 @@
+.Hovercard-Transition {
+
+}
+
+@keyframes hovercard-fade-in-up {
+	0% {
+		opacity: 0;
+		transform: translate(0, 20px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translate(0, 0);
+	}
+}
+
+@keyframes hovercard-fade-out-down {
+	0% {
+		opacity: 1;
+		transform: translate(0, 0);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translate(0, 20px);
+	}
+}
+
+.Hovercard-Transition-enter {
+	animation: hovercard-fade-in-up 0.3s ease forwards;
+}
+
+.Hovercard-Transition-leave {
+	animation: hovercard-fade-out-down 0.3s ease forwards;
+}
