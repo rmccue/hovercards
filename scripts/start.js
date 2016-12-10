@@ -86,7 +86,7 @@ function setupCompiler(host, port, protocol) {
 
 		if (showInstructions) {
 			console.log();
-			console.log('The app is running at:');
+			console.log('Scripts being served from:');
 			console.log();
 			console.log('  ' + chalk.cyan(protocol + '://' + host + ':' + port + '/'));
 			console.log();
