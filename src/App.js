@@ -5,13 +5,8 @@ import Card from './Card';
 
 import './App.css';
 
-const FirstChild = props => {
-	const childrenArray = React.Children.toArray(props.children);
-	return childrenArray[0] || null;
-};
-
 const transition = {
-	component: FirstChild,
+	component: "div",
 	transitionName: "Hovercard-Transition",
 	transitionEnterTimeout: 300,
 	transitionLeaveTimeout: 300,
