@@ -77,7 +77,7 @@ function redirect_on_accept() {
 	}
 
 	$post = $wp_query->get_queried_object();
-	$url = sprintf( '/wp/v2/posts/%d', $post->ID );
+	$url = sprintf( '/wp/v2/posts/%d', $post->ID ) . '?_embed';
 
 	wp_safe_redirect( rest_url( $url ) );
 	exit;
