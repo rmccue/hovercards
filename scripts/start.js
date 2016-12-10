@@ -10,7 +10,6 @@ var chalk = require('chalk');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var historyApiFallback = require('connect-history-api-fallback');
-var httpProxyMiddleware = require('http-proxy-middleware');
 var detect = require('detect-port');
 var clearConsole = require('react-dev-utils/clearConsole');
 var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
@@ -124,36 +123,7 @@ function setupCompiler(host, port, protocol) {
 	});
 }
 
-// We need to provide a custom onError function for httpProxyMiddleware.
-// It allows us to log custom error messages on the console.
-function onProxyError(proxy) {
-	return function(err, req, res){
-		var host = req.headers && req.headers.host;
-		console.log(
-			chalk.red('Proxy error:') + ' Could not proxy request ' + chalk.cyan(req.url) +
-			' from ' + chalk.cyan(host) + ' to ' + chalk.cyan(proxy) + '.'
-		);
-		console.log(
-			'See https://nodejs.org/api/errors.html#errors_common_system_errors for more information (' +
-			chalk.cyan(err.code) + ').'
-		);
-		console.log();
-
-		// And immediately send the proper error response to the client.
-		// Otherwise, the request will eventually timeout with ERR_EMPTY_RESPONSE on the client side.
-		if (res.writeHead && !res.headersSent) {
-				res.writeHead(500);
-		}
-		res.end('Proxy error: Could not proxy request ' + req.url + ' from ' +
-			host + ' to ' + proxy + ' (' + err.code + ').'
-		);
-	}
-}
-
 function addMiddleware(devServer) {
-	// `proxy` lets you to specify a fallback server during development.
-	// Every unrecognized request will be forwarded to it.
-	var proxy = require(paths.appPackageJson).proxy;
 	devServer.use(historyApiFallback({
 		// Paths with dots should still use the history fallback.
 		// See https://github.com/facebookincubator/create-react-app/issues/387.
@@ -169,39 +139,6 @@ function addMiddleware(devServer) {
 			['text/html'] :
 			['text/html', '*/*']
 	}));
-	if (proxy) {
-		if (typeof proxy !== 'string') {
-			console.log(chalk.red('When specified, "proxy" in package.json must be a string.'));
-			console.log(chalk.red('Instead, the type of "proxy" was "' + typeof proxy + '".'));
-			console.log(chalk.red('Either remove "proxy" from package.json, or make it a string.'));
-			process.exit(1);
-		}
-
-		// Otherwise, if proxy is specified, we will let it handle any request.
-		// There are a few exceptions which we won't send to the proxy:
-		// - /index.html (served as HTML5 history API fallback)
-		// - /*.hot-update.json (WebpackDevServer uses this too for hot reloading)
-		// - /sockjs-node/* (WebpackDevServer uses this for hot reloading)
-		// Tip: use https://jex.im/regulex/ to visualize the regex
-		var mayProxy = /^(?!\/(index\.html$|.*\.hot-update\.json$|sockjs-node\/)).*$/;
-
-		// Pass the scope regex both to Express and to the middleware for proxying
-		// of both HTTP and WebSockets to work without false positives.
-		var hpm = httpProxyMiddleware(pathname => mayProxy.test(pathname), {
-			target: proxy,
-			logLevel: 'silent',
-			onError: onProxyError(proxy),
-			secure: false,
-			changeOrigin: true,
-			ws: true
-		});
-		devServer.use(mayProxy, hpm);
-
-		// Listen for the websocket 'upgrade' event and upgrade the connection.
-		// If this is not done, httpProxyMiddleware will not try to upgrade until
-		// an initial plain HTTP request is made.
-		devServer.listeningApp.on('upgrade', hpm.upgrade);
-	}
 
 	// Finally, by now we have certainly resolved the URL.
 	// It may be /index.html, so let the dev server try serving it again.
